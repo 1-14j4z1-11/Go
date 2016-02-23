@@ -1,0 +1,7 @@
+/.metadata
+/ex01_01/bin/*.exe
+/RemoteSystemsTempFiles/.project
+/ex01_01/*.project
+.project
+*.exe
+*.a
