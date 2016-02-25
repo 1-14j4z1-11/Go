@@ -5,3 +5,4 @@
 .project
 *.exe
 *.a
+/ex01_12/bin/*.exe~
