@@ -1,6 +1,7 @@
 package mycomplex
 
 import (
+	"fmt"
 	"math"
 	"math/big"
 )
@@ -40,6 +41,17 @@ func (c *BigFloatComplex) Abs() float64 {
 	return math.Sqrt(r * r + i * i)
 }
 
+func (c *BigFloatComplex) String() string {
+	r, _ := c.Re.Float64()
+	i, _ := c.Im.Float64()
+
+	if i >= 0.0 {
+		return fmt.Sprintf("%6.2f + %6.2f", r, i)
+	} else {
+		return fmt.Sprintf("%6.2f - %6.2f", r, -i)
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////
 
 type BigRatComplex struct {
@@ -72,6 +84,17 @@ func (c *BigRatComplex) Abs() float64 {
 	r, _ := c.Re.Float64()
 	i, _ := c.Im.Float64()
 	return math.Sqrt(r * r + i * i)
+}
+
+func (c *BigRatComplex) String() string {
+	r, _ := c.Re.Float64()
+	i, _ := c.Im.Float64()
+
+	if i >= 0.0 {
+		return fmt.Sprintf("%6.2f + %6.2f", r, i)
+	} else {
+		return fmt.Sprintf("%6.2f - %6.2f", r, -i)
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////

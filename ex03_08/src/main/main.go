@@ -12,6 +12,11 @@ import (
 	"os"
 )
 
+const (
+	xmin, ymin, xmax, ymax = -2, -2, 2, 2
+	width, height = 1024, 1024
+)
+
 func main() {
 	fractal("complex128.png", mandelbrot_Complex128)
 	fractal("complex64.png", mandelbrot_Complex64)
@@ -20,11 +25,6 @@ func main() {
 }
 
 func fractal(path string, function func(r, i float64) color.Color) {
-	const (
-		xmin, ymin, xmax, ymax = -2, -2, 2, 2
-		width, height = 1024, 1024
-	)
-
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 
 	for py := 0; py < height; py++ {
@@ -45,18 +45,13 @@ func fractal(path string, function func(r, i float64) color.Color) {
 }
 
 func fractalWithBigRat(path string, function func(r, i *big.Rat) color.Color) {
-	const (
-		xmin, ymin, xmax, ymax = -2, -2, 2, 2
-		width, height = 1024, 1024
-	)
-
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
 
 	for py := 0; py < height; py++ {
-		y := big.NewRat(int64(py), height * (ymax - ymin) + ymin)
+		y := big.NewRat(int64(py) * (ymax - ymin) + ymin * height, height)
 
 		for px := 0; px < width; px++ {
-			x := big.NewRat(int64(px), width * (xmax - xmin) + xmin)
+			x := big.NewRat(int64(px) * (xmax - xmin) + xmin * width, width)
 			img.Set(px, py, function(x, y))
 		}
 	}
@@ -115,6 +110,7 @@ func mandelbrot_BigFloatComplex(r, i float64) color.Color {
 
 	for n := uint8(0); n < iterations; n++ {
 		v = v.Mul(v).Add(z)
+
 		if v.Abs() > 2 {
 			c := 255 - contrast * n
 			return color.RGBA{c, 0, 255 - c, 255}
@@ -125,7 +121,7 @@ func mandelbrot_BigFloatComplex(r, i float64) color.Color {
 }
 
 func mandelbrot_BigRatComplex(r, i *big.Rat) color.Color {
-	const iterations = 5
+	const iterations = 10
 	const contrast = 15
 
 	z := mycomplex.NewBigRatComplex(r, i)
@@ -133,6 +129,7 @@ func mandelbrot_BigRatComplex(r, i *big.Rat) color.Color {
 
 	for n := uint8(0); n < iterations; n++ {
 		v = v.Mul(v).Add(z)
+
 		if v.Abs() > 2 {
 			c := 255 - contrast * n
 			return color.RGBA{c, 0, 255 - c, 255}
