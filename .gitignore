@@ -1,8 +1,11 @@
 /.metadata
-/ex01_01/bin/*.exe
-/RemoteSystemsTempFiles/.project
-/ex01_01/*.project
 .project
 *.exe
 *.a
-/ex01_12/bin/*.exe~
+*.exe~
+/ex03_02/*.xml
+/ex03_03/*.xml
+/Test/*
+/ex03_06/*.png
+/ex03_07/*.png
+/ex04_13/*.jpg
