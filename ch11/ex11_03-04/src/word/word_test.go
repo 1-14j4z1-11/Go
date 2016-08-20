@@ -39,6 +39,30 @@ func randomNotPalindrome(rng *rand.Rand) string {
 	return string(runes)
 }
 
+func insertRune(word string, insert rune, rng *rand.Rand) string {
+	runes := []rune(word)
+	length := len(runes)
+	idx := 0
+
+	if length > 2 {
+		rng.Intn(length)
+	}
+
+	var newRunes []rune
+	var offset int
+	for i := 0; i < length; i++ {
+		if i + offset == idx {
+			newRunes = append(newRunes, insert)
+			offset++;
+			i--;
+		} else {
+			newRunes = append(newRunes, runes[i])
+		}
+	}
+
+	return string(newRunes)
+}
+
 func makeRune(rng *rand.Rand) rune {
 	var r rune
 
@@ -56,6 +80,8 @@ func TestRandomPalindromes(t *testing.T) {
 
 	for i := 0; i < 1000; i++ {
 		p := randomPalindrome(rng)
+		p = insertRune(p, ',', rng)
+		p = insertRune(p, ' ', rng)
 		if !IsPalindrome(p) {
 			t.Errorf("IsPalindrome(%q) = false", p)
 		}
@@ -72,6 +98,9 @@ func TestRandomNotPalindromes(t *testing.T) {
 		if len([]rune(p)) < 2 {
 			continue
 		}
+
+		p = insertRune(p, ',', rng)
+		p = insertRune(p, ' ', rng)
 
 		if IsPalindrome(p) {
 			t.Errorf("[%4d] !IsPalindrome(%v) = true", i, []rune(p))
